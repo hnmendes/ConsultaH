@@ -56,7 +56,6 @@ Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
 
 <br>
 <br>
-<br>
 
 “O código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista de heurísticas. Profissionalismo e habilidade vêm de valores que impulsionam as disciplinas.”
 
