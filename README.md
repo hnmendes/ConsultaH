@@ -55,8 +55,7 @@ Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
 * :white_check_mark: Utilizar um local DB ou SQL Server
 
 <br>
-<br>
 
 “O código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista de heurísticas. Profissionalismo e habilidade vêm de valores que impulsionam as disciplinas.”
 
-Uncle Bob - Clean Code :blue_book:
+<i>Uncle Bob</i> - Clean Code :blue_book:
