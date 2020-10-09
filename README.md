@@ -54,6 +54,16 @@ Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
 
 * :white_check_mark: Utilizar um local DB ou SQL Server
 
+ ### :warning: Atenção para a execução do projeto
+ 
+ No <i>Package Manager Console</i>, digite: 
+ 
+ ```
+ 
+ Update-Database -ProjectName ConsultaH.Infra
+ 
+ ```
+
 <br>
 
 > “O código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista de heurísticas. Profissionalismo e habilidade vêm de valores que impulsionam as disciplinas.”
