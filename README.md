@@ -1,6 +1,6 @@
 # ConsultaH
 
-Projeto em ASP.NET MVC 5 utilizando arquitetura DDD e seguindo os seguintes requisitos:
+Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
 
 ### Cadastro de Paciente (CRUD) onde a entidade deve conter as seguintes informações:
 
@@ -40,9 +40,24 @@ Projeto em ASP.NET MVC 5 utilizando arquitetura DDD e seguindo os seguintes requ
 
 * :white_check_mark: Gerar número de protocolo único para a consulta
 
+### Além dos requisitos
+
+* :white_check_mark: Arquitetura DDD
+
+* :white_check_mark: Injeção de Dependência com Ninject.MVC5
+
+* :white_check_mark: Checagem de horário passado
+
 ## Observações:
 
 * :white_check_mark: Utilizar Aspnet MVC 5 e EF (Entity Framework)
 
 * :white_check_mark: Utilizar um local DB ou SQL Server
 
+<br>
+<br>
+<br>
+
+“O código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista de heurísticas. Profissionalismo e habilidade vêm de valores que impulsionam as disciplinas.”
+
+Uncle Bob - Clean Code :blue_book:
