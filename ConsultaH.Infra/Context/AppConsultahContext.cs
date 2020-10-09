@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
+using System.Threading;
 
 namespace ConsultaH.Infra.Context
 {
@@ -44,11 +45,13 @@ namespace ConsultaH.Infra.Context
 
         public override int SaveChanges()
         {
-            foreach (var entrada in ChangeTracker.Entries().Where(entrada => entrada.Entity.GetType().GetProperty("NumeroProtocolo") != null))
+            foreach (var entrada in ChangeTracker.Entries<Consulta>())
             {
+                var consulta = entrada.Entity;                
+
                 if (entrada.State == EntityState.Added)
-                {
-                    entrada.Property("NumeroProtocolo").CurrentValue = DateTime.Now.ToString("yyMMddHHmmssffffff");
+                {                    
+                    entrada.Property("NumeroProtocolo").CurrentValue = consulta.Horario.ToString("yyMMddHHmmssffffff");
                 }
 
                 if (entrada.State == EntityState.Modified)
