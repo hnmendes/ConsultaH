@@ -1,10 +1,7 @@
 ﻿using ConsultaH.Domain.Entities;
 using ConsultaH.Infra.EntityConfig;
-using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Threading;
 
 namespace ConsultaH.Infra.Context
 {
