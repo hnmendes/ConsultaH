@@ -1,0 +1,47 @@
+﻿@model ConsultaH.MVC.ViewModels.ExameViewModel
+
+@{
+    ViewBag.Title = "Remover Exame";
+}
+
+<h2>Remover Exame</h2>
+
+<h3>Você tem certeza que deseja remover este exame ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacoes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoExameID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remover Exame" class="btn btn-danger" /> |
+            @Html.ActionLink("Voltar para Exames", "Index")
+        </div>
+    }
+</div>

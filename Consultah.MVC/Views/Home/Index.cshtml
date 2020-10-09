@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<style>
+
+    .btn-primary {
+        background-color: #ff9900;
+    }
+
+    .lead{
+        color:white;
+    }
+</style>
+
+<div class="jumbotron">
+    <h1><span class="ch">C</span><span class="logo-font">onsulta</span><span class="ch">H</span></h1>
+    <p class="lead">Aplicação criada no ASP.NET Framework MVC 5 usando HTML, CSS, JavaScript, Jquery e Ajax.</p>
+    <p><a href="@Url.Action("About","Home")" class="btn btn-primary btn-lg">Saiba Mais &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Consultas</h2>
+        <p>
+           Marque uma consulta para um paciente que deseja ser atendido com qualidade e transparência.
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","Consultas")">Ver Consultas em aberto &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Pacientes</h2>
+        <p>Cadastre e edite pacientes.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "Pacientes")">Ver Pacientes &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Exames e Tipo de Exames</h2>
+        <p>Cadastre exames e tipo de exames necessários para prover uma consulta de qualidade.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "Exames")">Exames &raquo;</a> <a class="btn btn-default" href="@Url.Action("Index", "TipoExames")">Tipos de Exames &raquo;</a></p>        
+    </div>
+</div>

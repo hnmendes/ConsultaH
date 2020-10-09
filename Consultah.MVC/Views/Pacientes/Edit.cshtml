@@ -1,0 +1,109 @@
+﻿@model ConsultaH.MVC.ViewModels.PacienteViewModel
+
+@{
+    ViewBag.Title = "Editar Informações";
+}
+
+<h2>Editar Informações</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CPF, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control CPF", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.CPF, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input value="@Html.Raw(Model.DataNascimento)" readonly="readonly" class="form-control DataNascimento" name="DataNascimento" />
+            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+
+                <label for="fem">
+                    Feminino
+                </label>
+
+                <input type="radio" id="fem" name="Sexo" value="0" checked />
+
+                <label for="masc">
+                    Masculino
+                </label>
+
+                <input type="radio" id="masc" name="Sexo" value="1" />
+            </div>
+            @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control Telefone" } })
+            @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Editar Paciente" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Voltar para Pacientes", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquerymask")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(".CPF").mask("000.000.000-00");
+
+            $(".Telefone").mask("(00) 9 0000-0000");
+
+            $(".DataNascimento").mask("00/00/0000")
+        });
+
+    </script>
+}

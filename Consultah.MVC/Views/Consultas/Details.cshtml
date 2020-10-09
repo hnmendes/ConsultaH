@@ -1,0 +1,49 @@
+﻿@model ConsultaH.MVC.ViewModels.ConsultaViewModel
+
+@{
+    ViewBag.Title = "Detalhes da Consulta";
+}
+
+<h2>Detalhes da Consulta</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PacienteID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoExame.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Exame.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Horario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Horario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar Consulta", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Voltar para Consultas", "Index")
+</p>

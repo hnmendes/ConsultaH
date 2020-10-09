@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ConsultaH.MVC.ViewModels.TipoExameViewModel>
+
+@{
+    ViewBag.Title = "Criar Tipo de Exame";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Criar Tipo de Exame", "Create", null, new { @class="btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descricao)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID }, new { @class="btn btn-primary" }) &nbsp;
+            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }, new { @class = "btn btn-default" }) &nbsp;
+            @Html.ActionLink("Remover", "Delete", new { id=item.ID }, new { @class="btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

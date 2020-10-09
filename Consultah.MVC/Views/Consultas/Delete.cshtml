@@ -1,0 +1,55 @@
+﻿@model ConsultaH.MVC.ViewModels.ConsultaViewModel
+
+@{
+    ViewBag.Title = "Remover Consulta";
+}
+
+<h2>Remover Consulta</h2>
+
+<h3>Você tem certeza da remoção desta Consulta?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PacienteID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PacienteID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoExameID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExameID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Horario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Horario)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remover Consulta" class="btn btn-danger" /> |
+            @Html.ActionLink("Voltar para Consultas", "Index")
+        </div>
+    }
+</div>

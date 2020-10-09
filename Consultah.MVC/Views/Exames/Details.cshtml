@@ -1,0 +1,41 @@
+﻿@model ConsultaH.MVC.ViewModels.ExameViewModel
+
+@{
+    ViewBag.Title = "Detalhes do Exame";
+}
+
+<h2>Detalhes do Exame</h2>
+
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacoes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoExameID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoExameID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Voltar para Exames", "Index")
+</p>
