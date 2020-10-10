@@ -6,5 +6,7 @@ namespace ConsultaH.Domain.Interfaces.Services
     public interface IPacienteService : IServiceBase<Paciente>
     {
         IEnumerable<Paciente> GetPacienteByNameOrCpf(string cpfOuNome);
+
+        bool CPFExists(string cpf);
     }
 }

@@ -12,11 +12,16 @@ namespace ConsultaH.Application
         public PacienteAppService(IPacienteService pacienteService) : base(pacienteService)
         {
             _pacienteService = pacienteService;
-        }
+        }        
 
         public IEnumerable<Paciente> GetPacienteByNameOrCpf(string cpfOuNome)
         {
             return _pacienteService.GetPacienteByNameOrCpf(cpfOuNome);
+        }
+
+        public bool CPFExists(string cpf)
+        {
+            return _pacienteService.CPFExists(cpf);
         }
     }
 }

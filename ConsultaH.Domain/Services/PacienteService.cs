@@ -13,11 +13,16 @@ namespace ConsultaH.Domain.Services
             : base(repository)
         {
             _repository = repository;
-        }
+        }        
 
         public IEnumerable<Paciente> GetPacienteByNameOrCpf(string cpfOuNome)
         {
             return _repository.GetPacienteByNameOrCpf(cpfOuNome);
+        }
+
+        public bool CPFExists(string cpf)
+        {
+            return _repository.CPFExists(cpf);
         }
     }
 }

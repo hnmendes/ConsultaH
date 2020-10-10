@@ -7,7 +7,7 @@
 <h2>Remover Paciente</h2>
 
 <h3>Você tem certeza da remoção do Paciente?</h3>
-<div>    
+<div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,7 +23,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CPF)
+            <input readonly value="@Model.CPF" id="CPF" name="CPF" class="form-control"/>
         </dd>
 
         <dt>
@@ -39,7 +39,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Telefone)
+            <input readonly value="@Model.Telefone" id="Telefone" name="Telefone" class="form-control"/>
         </dd>
 
         <dt>
@@ -52,7 +52,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -61,3 +62,10 @@
         </div>
     }
 </div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquerymask")
+    @Scripts.Render("~/bundles/paciente-validation")
+}

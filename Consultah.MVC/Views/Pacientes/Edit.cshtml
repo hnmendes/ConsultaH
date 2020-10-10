@@ -43,19 +43,28 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <div class="checkbox">
+            <div>
+                @if (Model.Sexo.Equals(0))
+                {
+                    <label for="fem" class="radio-inline">
+                        <input type="radio" id="fem" name="Sexo" value="0" checked />Feminino
+                    </label>
 
-                <label for="fem">
-                    Feminino
-                </label>
+                    <label for="masc" class="radio-inline">
+                        <input type="radio" id="masc" name="Sexo" value="1" />Masculino
+                    </label>
+                }
+                else
+                {
+                    <label for="fem" class="radio-inline">
+                        <input type="radio" id="fem" name="Sexo" value="0" />Feminino
+                    </label>
 
-                <input type="radio" id="fem" name="Sexo" value="0" checked />
+                    <label for="masc" class="radio-inline">
+                        <input type="radio" id="masc" name="Sexo" value="1" checked />Masculino
+                    </label>
+                }
 
-                <label for="masc">
-                    Masculino
-                </label>
-
-                <input type="radio" id="masc" name="Sexo" value="1" />
             </div>
             @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
         </div>

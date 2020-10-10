@@ -107,6 +107,14 @@ namespace ConsultaH.MVC.Controllers
             _pacienteApp.Remove(paciente);
 
             return RedirectToAction("Index");
-        }        
+        }
+        
+        [HttpPost]
+        public JsonResult CPFExists(string CPF)
+        {
+            var paciente = Json(_pacienteApp.CPFExists(CPF));
+
+            return paciente;
+        }
     }
 }
