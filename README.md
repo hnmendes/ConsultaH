@@ -58,12 +58,16 @@ Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
 
  ### :warning: Atenção para a execução do projeto
  
- No <i>Package Manager Console</i>, digite: 
+ 1. No <i>Package Manager Console</i>, digite: 
  
  ```
  Update-Database -ProjectName ConsultaH.Infra
  ```
  
+ 2. Clique na solution com o botão direito do mouse.
+ 3. Selecione na opção Clean Solution.
+ 4. Depois clique novamente com o botão direito do mouse.
+ 5. Selecione a opção Build.
 
 ### :newspaper: Frase Motivadora
 
