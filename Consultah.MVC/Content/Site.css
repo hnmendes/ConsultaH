@@ -68,3 +68,11 @@ textarea {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+.navbar-toggle {
+    background-color: #ff9900;
+}
+
+.icon-bar{
+    background-color: white;
+}
