@@ -3,6 +3,7 @@ using ConsultaH.Infra.Context;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace ConsultaH.Infra.Repositories
@@ -35,8 +36,8 @@ namespace ConsultaH.Infra.Repositories
         }
 
         public void Update(TEntity obj)
-        {            
-            Db.Entry(obj).State = EntityState.Modified;
+        {
+            Db.Set<TEntity>().AddOrUpdate(obj);
             Db.SaveChanges();
         }
 

@@ -2,6 +2,7 @@
 using ConsultaH.Infra.EntityConfig;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 
 namespace ConsultaH.Infra.Context
 {
@@ -53,7 +54,7 @@ namespace ConsultaH.Infra.Context
 
                 if (entrada.State == EntityState.Modified)
                 {
-                    entrada.Property("NumeroProtocolo").IsModified = false;
+                    entrada.Property("NumeroProtocolo").CurrentValue = consulta.Horario.ToString("yyMMddHHmmssffffff");
                 }
             }
 

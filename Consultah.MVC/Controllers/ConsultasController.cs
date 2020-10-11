@@ -2,7 +2,11 @@
 using ConsultaH.Application.Interface;
 using ConsultaH.Domain.Entities;
 using ConsultaH.MVC.ViewModels;
+using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace ConsultaH.MVC.Controllers
@@ -28,8 +32,19 @@ namespace ConsultaH.MVC.Controllers
         // GET: Consultas
         public ActionResult Index()
         {
-            var consultas = _consultaApp.GetAll();
-            var consultaViewModel = Mapper.Map<IEnumerable<Consulta>, IEnumerable<ConsultaViewModel>>(consultas);
+            var consultas = _consultaApp.GetAll().ToList();            
+
+            foreach (var c in consultas)
+            {
+                var cons = _exameApp.GetExamesByTipoExameId(c.TipoExameID).ToList();
+
+                if (cons.Count == 0)
+                {
+                    c.ExameID = 0;
+                }
+            }
+
+            var consultaViewModel = Mapper.Map<IEnumerable<Consulta>, IEnumerable<ConsultaViewModel>>(consultas);           
 
             return View(consultaViewModel);
         }
@@ -39,6 +54,15 @@ namespace ConsultaH.MVC.Controllers
         public ActionResult Details(int id)
         {
             var consulta = _consultaApp.GetById(id);
+            var cons = _exameApp.GetExamesByTipoExameId(consulta.TipoExameID).ToList();
+
+            ViewBag.Horario = consulta.Horario.ToString("dd/MM/yyyy HH:mm");
+
+            if (cons.Count == 0)
+            {
+                consulta.ExameID = 0;
+            }
+
             var consultaViewModel = Mapper.Map<Consulta, ConsultaViewModel>(consulta);
 
             return View(consultaViewModel);
@@ -61,7 +85,12 @@ namespace ConsultaH.MVC.Controllers
         {
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);
-            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome");
+            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome");            
+
+            if (consulta.PacienteID == 0)
+            {
+                ModelState.AddModelError("PacienteID", "Você precisa selecionar um paciente para marcar a consulta!");
+            }            
 
             if (ModelState.IsValid)
             {
@@ -82,6 +111,9 @@ namespace ConsultaH.MVC.Controllers
             var consulta = _consultaApp.GetById(id);
             var consultaViewModel = Mapper.Map<Consulta, ConsultaViewModel>(consulta);
             
+            ViewBag.Horario = consulta.Horario.ToString("yyyy-MM-ddTHH:mm");
+            ViewBag.HorarioMin = consulta.Horario.AddMinutes(1).ToString("yyyy-MM-ddTHH:mm");
+
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);                       
             
@@ -96,6 +128,20 @@ namespace ConsultaH.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, [Bind(Include = "ID,PacienteID,TipoExameID,ExameID,Horario")] ConsultaViewModel consulta)
         {
+            var consultaBag = _consultaApp.GetById(id);
+            var consultaViewModel = Mapper.Map<Consulta, ConsultaViewModel>(consultaBag);
+
+            var tipoExamesDomain = _tipoExameApp.GetAll();
+            var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);
+
+
+            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome", consultaViewModel.TipoExameID);
+
+            if(consulta.ExameID == 0)
+            {
+                ModelState.AddModelError("ExameID", "O Exame precisa ser selecionado.");
+            }
+
             if (ModelState.IsValid)
             {
                 var consultaDomain = Mapper.Map<ConsultaViewModel, Consulta>(consulta);
@@ -112,6 +158,15 @@ namespace ConsultaH.MVC.Controllers
         public ActionResult Delete(int id)
         {
             var consulta = _consultaApp.GetById(id);
+            var cons = _exameApp.GetExamesByTipoExameId(consulta.TipoExameID).ToList();
+
+            if (cons.Count == 0)
+            {
+                consulta.ExameID = 0;
+            }
+
+            ViewBag.Horario = consulta.Horario.ToString("dd/MM/yyyy HH:mm");
+            
             var consultaViewModel = Mapper.Map<Consulta, ConsultaViewModel>(consulta);
 
             return View(consultaViewModel);
@@ -150,6 +205,16 @@ namespace ConsultaH.MVC.Controllers
             var examesByTipo = Json(_exameApp.GetExamesByTipoExameId(tipoExameId));
 
             return examesByTipo;
+        }
+
+        [HttpPost]
+        public JsonResult HorarioExists(string date)
+        {
+            var dateTime = Convert.ToDateTime(date);            
+            
+            var exists = _consultaApp.DateExists(dateTime);
+
+            return Json(exists);
         }
     }
 }

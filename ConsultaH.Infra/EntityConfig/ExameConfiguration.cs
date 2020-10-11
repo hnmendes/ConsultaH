@@ -18,7 +18,7 @@ namespace ConsultaH.Infra.EntityConfig
 
             HasRequired(e => e.TipoExame)
                 .WithMany()
-                .HasForeignKey(e => e.TipoExameID);
+                .HasForeignKey(e => e.TipoExameID);                                
         }
     }
 }

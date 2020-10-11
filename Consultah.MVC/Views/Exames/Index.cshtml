@@ -2,44 +2,25 @@
 
 @{
     ViewBag.Title = "Exames";
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 5);
 }
 
 <h2>Exames</h2>
 
 <p>
-    @Html.ActionLink("Criar Novo Exame", "Create", null, new { @class="btn btn-primary" })
+    @Html.ActionLink("Criar Novo Exame", "Create", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacoes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoExameID)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacoes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoExame.Nome)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }, new { @class="btn btn-primary" }) &nbsp;
-            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }, new { @class = "btn btn-default" }) &nbsp;
-            @Html.ActionLink("Excluir Exame", "Delete", new { id=item.ID }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+<br />
 
-</table>
+@grid.GetHtml(
+
+    columns: new[] {
+        grid.Column("Nome", header: "Nome do Exame"),
+        grid.Column("Observacoes", header: "Observações"),
+        grid.Column("TipoExame.Nome", header: "Tipo do Exame"),
+        grid.Column( header: "Ações", format: @<text> @Html.ActionLink("Editar", "Edit", new { item.ID } , new { @class="btn btn-primary" }) &nbsp; @Html.ActionLink("Detalhes", "Details", new{ item.ID } , new {@class="btn btn-default" }) &nbsp; @Html.ActionLink("Remover", "Delete", new{ item.ID } , new {@class="btn btn-danger" })</text>)
+},
+htmlAttributes: new { @class = "table" }
+
+)

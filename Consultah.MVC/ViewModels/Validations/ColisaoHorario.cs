@@ -15,7 +15,19 @@ namespace Consultah.MVC.ViewModels.Validations
         {
             var horario = Convert.ToDateTime(value);
 
-            var horarioColide = !_consultaApp.GetAll().Any(c => c.Horario == horario);
+            var consultas = _consultaApp.GetAll().ToList();
+            var horarioColide = false;
+
+            consultas.ForEach(consulta => {
+
+                var condition = (consulta.Horario.Day == horario.Day) &&
+                                (consulta.Horario.Month == horario.Month) &&
+                                (consulta.Horario.Year == horario.Year) &&
+                                (consulta.Horario.Hour == horario.Hour) &&
+                                (consulta.Horario.Minute == horario.Minute);
+
+                horarioColide = (condition) ? true : false;
+            });
 
             return horarioColide;
         }

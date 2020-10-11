@@ -12,5 +12,10 @@ namespace ConsultaH.Application
         {
             _tipoExameService = tipoExameService;
         }
+
+        public bool CanDelete(int tipoExameId)
+        {
+            return _tipoExameService.CanDelete(tipoExameId);
+        }
     }
 }

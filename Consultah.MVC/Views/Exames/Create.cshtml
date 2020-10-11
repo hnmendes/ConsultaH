@@ -25,16 +25,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Observacoes, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Observacoes,new { @class = "form-control", @rows="10", @cols="150" })
+                @Html.TextAreaFor(model => model.Observacoes,new { @class = "form-control", @rows="10", @cols="150", @maxlength="1000" })
                 @Html.ValidationMessageFor(model => model.Observacoes, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.TipoExameID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TipoExameID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoExameID, "", new { @class = "text-danger" })
+            @Html.DropDownList("TipoExameID", null, htmlAttributes: new { @class = "form-control" })
+            
+            @Html.ValidationMessageFor(model => model.TipoExameID, "", new { @class = "text-danger" })
+
+
+            <div class="input-group" id="SemCliente" style="display:none;">
+                <span class="text-danger">Ainda não foi cadastrado nenhum tipo de exame, clique no botão abaixo para cadastrar algum.</span><br />
+                <div>@Html.ActionLink("Cadastrar Novo Tipo", "Create", "TipoExames", null, new { @class = "btn btn-primary", @style = "margin-top:20px;" })</div>
             </div>
         </div>
 

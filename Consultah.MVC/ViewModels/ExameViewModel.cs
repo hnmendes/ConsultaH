@@ -8,6 +8,7 @@ namespace ConsultaH.MVC.ViewModels
         [Key]
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "Nome do exame é necessário")]
         [MaxLength(100, ErrorMessage = "Não pode ter mais de 100 caracteres.")]
         public string Nome { get; set; }
 

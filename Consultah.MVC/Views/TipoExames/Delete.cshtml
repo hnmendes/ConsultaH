@@ -6,7 +6,15 @@
 
 <h2>Deletar Tipo de Exame</h2>
 
-<h3>Você tem certeza da remoção deste Tipo de Exame?</h3>
+@if (!ViewBag.CanDelete)
+{
+    <h3>Esse tipo de exame não pode ser excluído pois ele está sendo usado em uma ou mais Consultas ou Exames</h3>
+}
+else
+{
+    <h3>Você tem certeza da remoção deste Tipo de Exame?</h3>
+}
+
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -30,9 +38,9 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
+        
         <div class="form-actions no-color">
-            <input type="submit" value="Remover Tipo de Exame" class="btn btn-danger" /> |
+            <input type="submit" value="Remover Tipo de Exame" class="btn btn-danger" @(!ViewBag.CanDelete ? "disabled" : "") /> |
             @Html.ActionLink("Voltar para Tipo de Exames", "Index")
         </div>
     }

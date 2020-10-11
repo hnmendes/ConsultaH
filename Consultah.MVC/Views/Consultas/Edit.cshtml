@@ -7,90 +7,107 @@
 <h2>Editar Consulta</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+    <input type="hidden" value="@Model.PacienteID" id="idPaciente" />
 
-        <h4><b>Selecione o Paciente para marcar consulta.</b></h4>
-        <hr />
+    <h4><b>Selecione o Paciente para marcar consulta.</b></h4>
+    <hr />
 
-        <div class="form-group">
-            <div class="col-md-10">
-                <div class="input-group">
-                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-                    <input type="text" id="Buscar" placeholder="Buscar Paciente" class="form-control" />
-                </div>
-            </div>
-
-            <br /><br />
-            <table class="table table-striped" style="margin-top:20px;">
-                <thead>
-                    <tr>
-                        <th>Selecionar</th>
-                        <th>Nome do Paciente</th>
-                        <th>CPF do Paciente</th>
-                    </tr>
-                </thead>
-                <tbody id="table">
-                </tbody>
-            </table>
-
-            @Html.ValidationMessageFor(model => model.PacienteID, "", new { @class = "text-danger" })
-
-            <div class="input-group" id="SemClienteBusca" style="display:none;">
-                <span class="text-danger">Sua busca não resultou em nenhum paciente com este nome ou CPF, clique no botão abaixo para cadastrá-lo.</span><br />
-                <div>@Html.ActionLink("Cadastrar Novo Paciente", "Create", "Pacientes", null, new { @class = "btn btn-primary cadastro-btn", @style = "margin-top:20px;" })</div>
-            </div>
-
-            <div class="input-group" id="SemCliente" style="display:none;">
-                <span class="text-danger">Ainda não foi cadastrado nenhum paciente, clique no botão abaixo para cadastrar algum.</span><br />
-                <div>@Html.ActionLink("Cadastrar Novo Paciente", "Create", "Pacientes", null, new { @class = "btn btn-primary cadastro-btn", @style = "margin-top:20px;" })</div>
-            </div>
-        </div>
-
-        <div class="form-group">
+    <div class="form-group">
+        <div class="col-md-10">
             <div class="input-group">
-                <p><b>Tipo do Exame</b></p>
-                <div>
-                    @Html.DropDownList("TipoExameID", null, "Selecionar Tipo de Exame", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TipoExameID, "", new { @class = "text-danger" })
-                </div>
+                <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                <input type="text" id="Buscar" placeholder="Buscar Paciente" class="form-control" />
             </div>
         </div>
 
-        <div id="ExamePeloTipo" style="display:none;">
-            <div class="form-group">
-                <div class="input-group">
-                    <p><b>Exame</b></p>
-                    <div>
-                        <select class="form-control" id="ExameID" name="ExameID">                            
-                        </select>
+        <br /><br />
+        <table class="table table-striped" style="margin-top:20px;">
+            <thead>
+                <tr>
+                    <th>Selecionar</th>
+                    <th>Nome do Paciente</th>
+                    <th>CPF do Paciente</th>
+                </tr>
+            </thead>
+            <tbody id="table">
+            </tbody>
+        </table>
 
-                        @Html.ValidationMessageFor(model => model.ExameID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
+        @Html.ValidationMessageFor(model => model.PacienteID, "", new { @class = "text-danger", @id = "PacienteID-Error" })
+
+        <div class="input-group" id="SemClienteBusca" style="display:none;">
+            <span class="text-danger">Sua busca não resultou em nenhum paciente com este nome ou CPF, clique no botão abaixo para cadastrá-lo.</span><br />
+            <div>@Html.ActionLink("Cadastrar Novo Paciente", "Create", "Pacientes", null, new { @class = "btn btn-primary cadastro-btn", @style = "margin-top:20px;" })</div>
         </div>
 
-        <div class="form-group">
-            <p><b>Horário da Consulta</b></p>
+        <div class="input-group" id="SemCliente" style="display:none;">
+            <span class="text-danger">Ainda não foi cadastrado nenhum paciente, clique no botão abaixo para cadastrar algum.</span><br />
+            <div>@Html.ActionLink("Cadastrar Novo Paciente", "Create", "Pacientes", null, new { @class = "btn btn-primary cadastro-btn", @style = "margin-top:20px;" })</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <p><b>Tipo do Exame</b></p>
             <div>
-                @Html.EditorFor(model => model.Horario, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div>
-                <input type="submit" value="Editar Consulta" class="btn btn-primary" style="margin-top:30px; margin-bottom:30px;" />
+                @Html.DropDownList("TipoExameID", null, "Selecionar Tipo de Exame", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoExameID, "", new { @class = "text-danger", @id = "TipoExameID-Error" })
             </div>
         </div>
     </div>
+
+    <div id="ExamePeloTipo" style="display:none;">
+        <div class="form-group" style="margin-bottom:5px !important;">
+            <div class="input-group">
+                <p><b>Exame</b></p>
+                <div>
+                    <select class="form-control" id="ExameID" name="ExameID" style="margin-bottom: 20px;">
+                    </select>                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-group" id="ExameId-Error" style="display:none;">        
+        <span class="text-danger"></span>
+    </div>
+
+    <div class="form-group" id="SemExame" style="display:none;">
+        <div>
+
+            <span class="text-danger">Clique no botão abaixo e cadastre um exame para esse mesmo tipo de exame.</span>
+
+        </div>
+    </div>        
+    
+    <a href="/Exames/Create" class="btn btn-primary form-group" id="btnNovoExame" style="margin-bottom:20px; display:none;">Cadastrar Novo Exame</a>
+
+    <div class="form-group">
+        <p><b>Horário da Consulta</b></p>
+        <div>            
+            <input type="datetime-local" class="form-control" value="@ViewBag.Horario" name="Horario" id="Horario" min="@ViewBag.HorarioMin"/>
+            @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger", @id = "Horario-error" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Editar Consulta" class="btn btn-primary" style="margin-top:30px; margin-bottom:30px;" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

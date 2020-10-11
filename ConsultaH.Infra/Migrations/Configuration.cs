@@ -18,15 +18,18 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
+            GenerateData(context);
+            
+        }
+
+        private void GenerateData(Context.AppConsultahContext context)
+        {
             var random = new Random();
-            var sexo = random.Next(0, 2);
-            var ddd = random.Next(11, 99);
 
             for (int i = 1; i <= 20; i++)
             {
                 context.TipoExames.AddOrUpdate(new TipoExame() { Nome = "Tipo Exame" + i, Descricao = "Descrição Exame" + i, ID = i });
             }
-
 
             for (int i = 1; i <= 20; i++)
             {
@@ -35,13 +38,13 @@
 
             for (int i = 1; i <= 20; i++)
             {
-                if(i > 9)
+                if (i > 9)
                 {
-                    context.Pacientes.AddOrUpdate(new Paciente() { ID = i, CPF = "852961874" + i, DataNascimento = DateTime.Now, Email = "emailtest"+i+"@consultah.com", Nome="Teste " + i, Sexo = (Sexo)sexo, Telefone = ddd + "9" + "865227" + i });
+                    context.Pacientes.AddOrUpdate(new Paciente() { ID = i, CPF = "852961874" + i, DataNascimento = DateTime.Now, Email = "emailtest" + i + "@consultah.com", Nome = "Teste " + i, Sexo = (Sexo)random.Next(0, 2), Telefone = random.Next(11, 99) + "9" + "865227" + i });
                 }
                 else
                 {
-                    context.Pacientes.AddOrUpdate(new Paciente() { ID = i, CPF = "8529618747" + i, DataNascimento = DateTime.Now, Email = "emailtest" + i + "@consultah.com", Nome = "Teste " + i, Sexo = (Sexo)sexo, Telefone = ddd + "9" + "8652275" + i });
+                    context.Pacientes.AddOrUpdate(new Paciente() { ID = i, CPF = "8529618747" + i, DataNascimento = DateTime.Now, Email = "emailtest" + i + "@consultah.com", Nome = "Teste " + i, Sexo = (Sexo)random.Next(0, 2), Telefone = random.Next(11, 99) + "9" + "8652275" + i });
                 }
             }
 
@@ -49,7 +52,6 @@
             {
                 context.Consultas.AddOrUpdate(new Consulta() { ID = i, PacienteID = i, ExameID = i, Horario = DateTime.Now.AddDays(i), TipoExameID = i });
             }
-            
         }
     }
 }

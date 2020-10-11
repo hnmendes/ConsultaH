@@ -8,5 +8,7 @@ namespace ConsultaH.Domain.Interfaces.Services
         IEnumerable<Paciente> GetPacienteByNameOrCpf(string cpfOuNome);
 
         bool CPFExists(string cpf);
+
+        void Update(int idPaciente, string telefone = null, string nome = null, string email = null, Sexo? sexo = null);
     }
 }

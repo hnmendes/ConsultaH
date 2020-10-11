@@ -2,56 +2,27 @@
 
 @{
     ViewBag.Title = "Consultas";
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 5);
 }
 
 <h2>Consultas</h2>
 
 <p>
-    @Html.ActionLink("Marcar Consulta", "Create",null, new { @class= "btn btn-primary" })
+    @Html.ActionLink("Marcar Consulta", "Create", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PacienteID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoExameID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ExameID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Horario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumeroProtocolo)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Paciente.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoExame.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Exame.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Horario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumeroProtocolo)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }, new { @class="btn btn-primary" }) &nbsp;
-            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }, new {@class="btn btn-default" }) &nbsp;
-            @Html.ActionLink("Remover", "Delete", new { id=item.ID }, new {@class="btn btn-danger" })
-        </td>
-    </tr>
-}
+<br />
 
-</table>
+@grid.GetHtml(
+
+    columns: new[] {
+        grid.Column("Paciente.Nome", header: "Nome do paciente"),
+        grid.Column("TipoExame.Nome", header: "Tipo do Exame"),
+        grid.Column("Exame.Nome", header: "Nome do Exame"),
+        grid.Column("Horario", header: "Horário da Consulta"),
+        grid.Column("NumeroProtocolo", header: "Número de Protocolo"),
+        grid.Column( header: "Ações", format: @<text> @Html.ActionLink("Editar", "Edit", new { item.ID } , new { @class="btn btn-primary" }) &nbsp; @Html.ActionLink("Detalhes", "Details", new{ item.ID } , new {@class="btn btn-default" }) &nbsp; @Html.ActionLink("Remover", "Delete", new{ item.ID } , new {@class="btn btn-danger" })</text>)
+    },
+    htmlAttributes: new { @class = "table" }
+    
+)

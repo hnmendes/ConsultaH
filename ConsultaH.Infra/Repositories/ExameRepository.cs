@@ -11,5 +11,12 @@ namespace ConsultaH.Infra.Repositories
         {
             return Db.Exames.Where(e => e.TipoExameID == tipoExameId).ToList();
         }
+
+        public bool CanDelete(int exameId)
+        {
+            var existsInConsulta = Db.Consultas.Any(c => c.ExameID == exameId);
+
+            return !existsInConsulta;
+        }
     }
 }

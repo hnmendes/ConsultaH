@@ -26,6 +26,7 @@ namespace ConsultaH.MVC.ViewModels
 
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataNascimento { get; set; }
 
         public Sexo Sexo { get; set; }        

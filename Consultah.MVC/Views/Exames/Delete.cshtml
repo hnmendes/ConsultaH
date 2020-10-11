@@ -6,7 +6,15 @@
 
 <h2>Remover Exame</h2>
 
-<h3>Você tem certeza que deseja remover este exame ?</h3>
+@if (!ViewBag.CanDelete)
+{
+    <h3>Esse tipo de exame não pode ser excluído pois ele está sendo usado em uma ou mais Consultas.</h3>
+}
+else
+{
+    <h3>Você tem certeza da remoção deste Tipo de Exame?</h3>
+}
+
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -31,16 +39,17 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TipoExameID)
+            @Html.DisplayFor(model => model.TipoExame.Nome)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Remover Exame" class="btn btn-danger" /> |
+            <input type="submit" value="Remover Exame" class="btn btn-danger" @(!ViewBag.CanDelete ? "disabled" : "")/> |
             @Html.ActionLink("Voltar para Exames", "Index")
         </div>
     }

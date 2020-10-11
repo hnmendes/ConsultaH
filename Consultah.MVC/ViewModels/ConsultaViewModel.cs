@@ -32,7 +32,7 @@ namespace ConsultaH.MVC.ViewModels
         
         [Display(Name = "Horário da Consulta")]
         [DataType(DataType.DateTime, ErrorMessage = "Data inválida.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [ColisaoHorario(ErrorMessage = "Não pode ter marcação de consulta neste horário, pois está colidindo com outro consulta previamente cadastrada.")]
         [PassadoHorario(ErrorMessage = "Horário não pode ser escolhido para um dia que já passou.")]
         public DateTime Horario { get; set; }

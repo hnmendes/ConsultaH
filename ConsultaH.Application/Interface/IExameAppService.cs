@@ -6,5 +6,6 @@ namespace ConsultaH.Application.Interface
     public interface IExameAppService : IAppServiceBase<Exame>
     {
         IEnumerable<Exame> GetExamesByTipoExameId(int tipoExameId);
+        bool CanDelete(int exameId);
     }
 }

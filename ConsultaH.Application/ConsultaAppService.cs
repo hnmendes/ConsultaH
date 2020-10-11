@@ -1,7 +1,7 @@
 ﻿using ConsultaH.Application.Interface;
 using ConsultaH.Domain.Entities;
 using ConsultaH.Domain.Interfaces.Services;
-using System.Collections.Generic;
+using System;
 
 namespace ConsultaH.Application
 {
@@ -12,7 +12,11 @@ namespace ConsultaH.Application
         public ConsultaAppService(IConsultaService consultaService) : base(consultaService)
         {
             _consultaService = consultaService;
-        }        
-        
+        }
+
+        public bool DateExists(DateTime dateTime)
+        {
+            return _consultaService.DateExists(dateTime);
+        }
     }
 }

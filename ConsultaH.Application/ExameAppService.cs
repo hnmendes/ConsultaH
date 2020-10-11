@@ -18,5 +18,10 @@ namespace ConsultaH.Application
         {
             return _exameService.GetExamesByTipoExameId(tipoExameId);
         }
+        
+        public bool CanDelete(int exameId)
+        {
+            return _exameService.CanDelete(exameId);
+        }
     }
 }

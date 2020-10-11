@@ -24,5 +24,10 @@ namespace ConsultaH.Domain.Services
         {
             return _repository.CPFExists(cpf);
         }
+
+        public void Update(int idPaciente, string telefone = null, string nome = null, string email = null, Sexo? sexo = null)
+        {
+            _repository.Update(idPaciente, telefone, nome, email, sexo);
+        }
     }
 }

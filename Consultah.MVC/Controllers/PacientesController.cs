@@ -3,6 +3,7 @@ using Consultah.MVC.ViewModels.ExtensionMethods;
 using ConsultaH.Application.Interface;
 using ConsultaH.Domain.Entities;
 using ConsultaH.MVC.ViewModels;
+using Microsoft.Ajax.Utilities;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -20,8 +21,15 @@ namespace ConsultaH.MVC.Controllers
         // GET: Pacientes
         public ActionResult Index()
         {
-            var pacientes = _pacienteApp.GetAll();
+            var pacientes = _pacienteApp.GetAll();                        
+
             var pacientesViewModel = Mapper.Map<IEnumerable<Paciente>, IEnumerable<PacienteViewModel>>(pacientes);
+
+            pacientesViewModel.ForEach(pvm =>
+            {
+                pvm.CPF = pvm.CPF.GerarCPFMascara();
+                pvm.Telefone = pvm.Telefone.GerarTelefoneMascara();
+            });
 
             return View(pacientesViewModel);
         }
@@ -72,16 +80,15 @@ namespace ConsultaH.MVC.Controllers
         // POST: Pacientes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind(Include = "ID,Nome,CPF,DataNascimento,Sexo,Telefone,Email")] PacienteViewModel paciente)
-        {
-            paciente.CPF = paciente.CPF.RemoverCaractereCPF();
+        public ActionResult Edit(int id, [Bind(Include = "ID,Nome,Sexo,Telefone,Email")] PacienteViewModel paciente)
+        {            
             paciente.Telefone = paciente.Telefone.RemoverCaractereTelefone();
 
             if (ModelState.IsValid)
             {                
 
                 var pacienteDomain = Mapper.Map<PacienteViewModel, Paciente>(paciente);
-                _pacienteApp.Update(pacienteDomain);
+                _pacienteApp.Update(pacienteDomain.ID,pacienteDomain.Telefone,pacienteDomain.Nome,pacienteDomain.Email, pacienteDomain.Sexo);
 
                 return RedirectToAction("Index");
             }

@@ -11,5 +11,10 @@ namespace ConsultaH.Domain.Services
         {
             _repository = repository;
         }
+
+        public bool CanDelete(int tipoExameId)
+        {
+            return _repository.CanDelete(tipoExameId);
+        }
     }
 }

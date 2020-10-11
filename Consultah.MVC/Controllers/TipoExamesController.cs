@@ -88,6 +88,9 @@ namespace ConsultaH.MVC.Controllers
             var tipoExame = _tipoExameApp.GetById(id);
             var tipoExameViewModel = Mapper.Map<TipoExame, TipoExameViewModel>(tipoExame);
 
+            var canDelete = _tipoExameApp.CanDelete(id);
+            ViewBag.CanDelete = canDelete;
+
             return View(tipoExameViewModel);
         }
 
@@ -96,10 +99,22 @@ namespace ConsultaH.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var tipoExame = _tipoExameApp.GetById(id);
-            _tipoExameApp.Remove(tipoExame);
+            var canDelete = _tipoExameApp.CanDelete(id);
+            ViewBag.CanDelete = canDelete;
 
-            return RedirectToAction("Index");
+            if (canDelete)
+            {
+                var tipoExame = _tipoExameApp.GetById(id);
+                _tipoExameApp.Remove(tipoExame);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {                
+
+                return RedirectToAction("Delete", id);
+            }
+            
         }
     }
 }

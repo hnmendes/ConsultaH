@@ -17,5 +17,10 @@ namespace ConsultaH.Domain.Services
         {
             return _repository.GetExamesByTipoExameId(tipoExameId);
         }
+
+        public bool CanDelete(int exameId)
+        {
+            return _repository.CanDelete(exameId);
+        }
     }
 }

@@ -2,87 +2,28 @@
 
 @{
     ViewBag.Title = "Pacientes";
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 5);
 }
 
 <h2>Pacientes</h2>
 
 <p>
-    @Html.ActionLink("Cadastrar Paciente", "Create",null,new {@class="btn btn-primary" })
+    @Html.ActionLink("Cadastrar Paciente", "Create", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CPF)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sexo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                <p class="CPF">@item.CPF</p>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataNascimento)
-            </td>
-            <td>
-                @if(item.Sexo == ConsultaH.MVC.ViewModels.Sexo.Feminino)
-                {
-                    <p>Feminino</p>
-                }
-                else
-                {
-                    <p>Masculino</p>
-                }
-            </td>
-            <td>
-                <p class="Telefone">@item.Telefone</p>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" }) &nbsp;
-                @Html.ActionLink("Detalhes", "Details", new { id = item.ID },  new { @class = "btn btn-default" }) &nbsp;
-                @Html.ActionLink("Remover", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-            </td>
-        </tr>
-    }
+<br />
 
-</table>
+@grid.GetHtml(
 
-@section Scripts{
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jquerymask")
+    columns: new[] {
+        grid.Column("Nome", header: "Nome do paciente"),
+        grid.Column("CPF", header: "CPF"),
+        grid.Column("DataNascimento", header: "Data de Nascimento", format:@<text> @item.DataNascimento.ToString("dd/MM/yyyy") </text>),
+        grid.Column("Sexo", header: "Sexo"),
+        grid.Column("Telefone", header: "Telefone"),
+        grid.Column("Email", header:"E-mail"),
+        grid.Column( header: "Ações", format: @<text> @Html.ActionLink("Editar", "Edit", new { item.ID } , new { @class="btn btn-primary" }) &nbsp; @Html.ActionLink("Detalhes", "Details", new{ item.ID } , new {@class="btn btn-default" }) &nbsp; @Html.ActionLink("Remover", "Delete", new{ item.ID } , new {@class="btn btn-danger" })</text>)
+    },
+    htmlAttributes: new { @class = "table" }
 
-    <script>
-
-        $(document).ready(function () {
-
-            $(".CPF").mask("000.000.000-00");
-
-            $(".Telefone").mask("(00) 9 0000-0000");
-
-        });
-
-    </script>
-}
+)

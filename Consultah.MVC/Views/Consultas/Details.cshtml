@@ -30,7 +30,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Exame.Nome)
+            @if (Model.ExameID == 0)
+            {
+                <span class='text-danger'>Exame alterado</span>
+            }
+            else
+            {
+                @Model.Exame.Nome
+            }
         </dd>
 
         <dt>
@@ -38,7 +45,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Horario)
+            @ViewBag.Horario
         </dd>
 
     </dl>

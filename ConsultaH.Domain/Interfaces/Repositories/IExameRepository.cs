@@ -6,5 +6,6 @@ namespace ConsultaH.Domain.Interfaces
     public interface IExameRepository : IRepositoryBase<Exame>
     {
         IEnumerable<Exame> GetExamesByTipoExameId(int tipoExameId);
+        bool CanDelete(int exameId);
     }
 }
