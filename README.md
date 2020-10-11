@@ -68,7 +68,33 @@ Projeto em ASP.NET MVC 5 seguindo os seguintes requisitos:
  3. Selecione na opção Clean Solution.
  4. Depois clique novamente com o botão direito do mouse.
  5. Selecione a opção Build.
+ 
+## Screenshots
 
+##### Página Home - Desktop
+
+![Screenshot 1 - Home - Desktop](../main/Screenshots/screenshot-1-home.JPG)
+
+##### Página Home - Mobile
+
+![Screenshot 1 - Home - Mobile](../main/Screenshots/screenshot-1-home-mobile.JPG)
+
+##### Página de Exames - Desktop
+
+![Screenshot 2 - Exames - Desktop](../main/Screenshots/screenshot-2-exames.JPG)
+
+##### Página Consultas - Desktop
+
+![Screenshot 3 - Consultas - Desktop](../main/Screenshots/screenshot-3-consultas.JPG)
+
+##### Página Pacientes - Desktop
+
+![Screenshot 4 - Pacientes - Desktop](../main/Screenshots/screenshot-4-pacientes.JPG)
+
+##### Página Tipo de Exames - Desktop
+
+![Screenshot 5 - Tipo de Exames - Desktop](../main/Screenshots/screenshot-5-tipoExames.JPG)
+<br>
 ### :newspaper: Frase Motivadora
 
 > “O código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista de heurísticas. Profissionalismo e habilidade vêm de valores que impulsionam as disciplinas.”
