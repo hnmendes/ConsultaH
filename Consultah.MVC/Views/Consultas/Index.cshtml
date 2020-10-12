@@ -22,7 +22,28 @@
         grid.Column("Horario", header: "Horário da Consulta"),
         grid.Column("NumeroProtocolo", header: "Número de Protocolo"),
         grid.Column( header: "Ações", format: @<text> @Html.ActionLink("Editar", "Edit", new { item.ID } , new { @class="btn btn-primary" }) &nbsp; @Html.ActionLink("Detalhes", "Details", new{ item.ID } , new {@class="btn btn-default" }) &nbsp; @Html.ActionLink("Remover", "Delete", new{ item.ID } , new {@class="btn btn-danger" })</text>)
-    },
-    htmlAttributes: new { @class = "table" }
-    
+},
+htmlAttributes: new { @class = "table" }
 )
+
+@if (ViewBag.Created)
+{
+    @Html.Partial("_ModalSucesso", new ViewDataDictionary(this.Vi‌​ewData) {
+    {
+      "Entity", "Consulta"
+    }
+  });
+}
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+    <script>
+        if ("@ViewBag.Created" == "True") {
+            $("#modal-click").click();
+        }        
+    </script>
+
+}

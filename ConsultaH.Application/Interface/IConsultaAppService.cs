@@ -5,7 +5,7 @@ namespace ConsultaH.Application.Interface
 {
     public interface IConsultaAppService : IAppServiceBase<Consulta>
     {
-        bool DateExists(DateTime dateTime);
+        bool DateExists(DateTime dateTime);        
 
     }
 }

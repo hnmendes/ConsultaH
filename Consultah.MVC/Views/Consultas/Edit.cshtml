@@ -13,9 +13,8 @@
 
 <div class="form-horizontal">
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.ID)
-    <input type="hidden" value="@Model.PacienteID" id="idPaciente" />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })    
+    <input type="hidden" value="@Model.PacienteID" id="PacienteID" />
 
     <h4><b>Selecione o Paciente para marcar consulta.</b></h4>
     <hr />

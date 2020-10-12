@@ -1,257 +1,327 @@
-﻿const urlSearch = "/Consultas/GetSearchCpfOrName";
+﻿//Endpoints
+const urlSearch = "/Consultas/GetSearchCpfOrName";
 const urlAllPacientes = "/Consultas/GetAllPacientes";
 const urlAllExamesByTipo = "/Consultas/GetAllExamesByTipo";
 const urlHorarioExists = "/Consultas/HorarioExists";
+const controller = getControllerName();
 
-let exameIDError = $("#ExameId-Error");
-let pacienteIDError = $("#PacienteID-Error");
-let tipoExameIDError = $("#TipoExameID-Error");
-let horarioError = $("Horario-Error");
+//Elementos do form
+let exame = $("#Exame option:selected");
+let exameAppend = $("#Exame");
+let exameEdit = $("#ExameID");
+let horario = $("#Horario");
+let paciente = $("input[name='PacienteRadio']:checked");
+let pacienteEdit = $("#PacienteID");
+let tipoExame = $("#TipoExame option:selected");
+let tipoExameEdit = $("#TipoExameID");
 
+//Erros
+let exameError = $("#ExameID-Error");
+let pacienteError = $("#PacienteID-Error");
+let tipoExameError = $("#TipoExameID-Error");
+let horarioError = $("#Horario-Error");
+let semCliente = $("#SemCliente");
+let semClienteBusca = $("#SemClienteBusca");
+let semExame = $("#SemExame");
+
+//Elementos
+let table = $("#table");
+let form = $("#form");
+let buscar = $("#Buscar");
+let examePeloTipo = $("#ExamePeloTipo");
 let btnNovoExame = $("#btnNovoExame");
 
 
-$("#Horario").on("change", function () {
+horario.on("change", function ()
+{
+    let horarioValue = horario.val();        
 
-    let horario = $("#Horario").val();
+    horarioError.hide();
 
-    $("#Horario-error").text("");
-
-    $.post(urlHorarioExists, { date: horario }, function (data) {
-
-        if (data) {
-            $("#Horario-error").text("Esse horário já foi marcado, por favor escolha outro.")
-        }
-        
+    let request = $.ajax({
+        url: urlHorarioExists,
+        type: "POST",
+        data: { date: horarioValue }
     });
 
-});
+    request.done(function (data) {        
 
-
-$("#form").on("submit", function (event) {
-
-    let exameID = $('#ExameID option:selected').val();
-    let pacienteID = $('input[name="PacienteID"]:checked').val();
-    let tipoExameID = $('#TipoExameID option:selected').val();
-    let horario = $("#Horario").val();        
-
-    if (!pacienteID) {
-        pacienteIDError.text("Selecione um paciente.");
-        event.preventDefault();
-        console.log("paciente");
-    }
-
-    if (!tipoExameID) {
-        tipoExameIDError.text("Selecione um tipo de exame.");
-        event.preventDefault();       
-        console.log("tipo");
-    }
-
-    if (exameID == 0) {        
-
-        exameIDError.text("Selecione um exame.");
-        exameIDError.show();
-        event.preventDefault();
-        console.log("exame");
-    }
-
-    if (horario == undefined) {
-        horarioError.text("Preencha com um horário.");
-        event.preventDefault();
-        console.log("horario");
-    }
+        if (data) {
+            horarioError.append('&nbsp;<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">  <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path>  <path fill-rule="evenodd" d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z"></path></svg>');
+            horarioError.text("Esse horário já foi marcado, por favor escolha outro.");            
+            horarioError.show();    
+        }
+    });            
     
 });
 
-$("#ExameID").on("change", function () {
-    exameIDError.text("");
-    btnNovoExame.hide();
+
+$("#fakeSubmit").on("click", function (event)
+{
+    let exameValue = exameEdit.val();
+    let pacienteValue = pacienteEdit.val();
+    let tipoExameValue = tipoExameEdit.val();
+    let horarioValue = horario.val();
+
+    let syncValues = true;
+
+    if (pacienteValue == 0)
+    {        
+        pacienteError.text("Selecione um paciente.");
+        pacienteError.show();
+        syncValues = false;
+    }
+
+    if (tipoExameValue == 0)
+    {        
+        tipoExameError.text("Selecione um tipo de exame.");
+        tipoExameError.show();        
+        syncValues = false;
+    }
+
+    if (exameValue == 0)
+    {
+        exameError.text("Selecione um exame.");
+        exameError.show();            
+        syncValues = false;
+    }
+
+    if (horarioValue == '') {
+
+        horarioError.text("Preencha com um horário.");
+        horarioError.show();
+        syncValues = false;
+
+    } else {       
+
+        let request = $.ajax({
+            url: urlHorarioExists,
+            type: "POST",
+            data: { date: horarioValue }
+        });
+
+        request.done(function (data) {                        
+
+            if (data && syncValues) {
+                horarioError.append('&nbsp;<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">  <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path>  <path fill-rule="evenodd" d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z"></path></svg>');
+                horarioError.text("Esse horário já foi marcado, por favor escolha outro.");                
+                horarioError.show();                
+            } else {                
+                $("#submit").click();
+            }
+        });
+       
+    }    
+    
 });
 
 
-$.post(urlAllPacientes, function (data) {
+$("body").on("change","#Exame", function (event)
+{    
+    exameEdit.val(event.target.value);    
+    exameError.hide();
+    btnNovoExame.hide();
+});
 
-    if (data.length > 0) {
+$("body").on("change", "#table input[type=radio]", function (event) {        
+    pacienteEdit.val(event.target.value);
+    pacienteError.hide();
+});
 
-        if (getControllerName() == 'Edit') {
+$.post(urlAllPacientes, function (data)
+{
+    if (data.length > 0)
+    {
+        if (controller == 'Edit') {
 
-            let selected = $("#idPaciente").val();
+            let selected = pacienteEdit.val();
 
-            for (i = 0; i < data.length; i++) {
+            for (i = 0; i < data.length; i++) {                
+
                 if (data[i].ID == selected) {
-                    $("#table").append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" value="' + data[i].ID + '" checked></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                    $("#table").append('<tr><td><input name="PacienteRadio" type="radio" value="' + data[i].ID + '" checked></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
                 } else {
-                    $("#table").append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                    $("#table").append('<tr><td><input name="PacienteRadio" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
                 }
-                
             }
+        } else {            
 
-        } else {
+            for (i = 0; i < data.length; i++)
+            {
+                for (i = 0; i < data.length; i++) {
 
-            for (i = 0; i < data.length; i++) {
-
-                $("#table").append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                    $("#table").append('<tr><td><input name="PacienteRadio" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                }
             }
-        }
-
-        $(".PacienteCpf").mask("000.000.000-00");
-
-
-    } else {
-        $("#SemCliente").show();
+        }                                
+    }
+    else
+    {
+        semCliente.show();
     }
 });
 
 
-$("#Buscar").on("keyup", function () {
-    let cpfOuNome = $("#Buscar").val();
-    $("#SemClienteBusca").hide();
+buscar.on("keyup", function ()
+{
+    let cpfOuNome = buscar.val();
+    semClienteBusca.hide();
 
+    if (cpfOuNome == '')
+    {
+        table.find("td").parent().remove();
 
-    if (cpfOuNome == '') {
+        $.post(urlAllPacientes, function (data)
+        {
+            if (data.length > 0)
+            {
+                semCliente.hide();
 
-        $("#table").find("td").parent().remove();
-
-        $.post(urlAllPacientes, function (data) {
-
-            if (data.length > 0) {
-
-                $("#SemCliente").hide();
-
-                for (i = 0; i < data.length; i++) {
-                    $("#table").append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                for (i = 0; i < data.length; i++)
+                {
+                    table.append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" class="pacienteRadio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
                 }
-
-
-            } else {
-                $("#SemCliente").show();
+            }
+            else
+            {
+                semCliente.show();
             }
         });
+    }
+    else
+    {
+        $.post(urlSearch, { cpfOuNome: cpfOuNome }, function (data)
+        {
+            if (data.length > 0)
+            {
+                table.find("td").parent().remove();
 
+                for (i = 0; i < data.length; i++)
+                {
+                    var index = table.find("td:contains('" + data[i].Nome + "')").parent().index();
 
-    } else {
-
-
-        $.post(urlSearch, { cpfOuNome: cpfOuNome }, function (data) {
-
-            if (data.length > 0) {
-
-                $("#table").find("td").parent().remove();
-
-                for (i = 0; i < data.length; i++) {
-
-                    var index = $("#table").find("td:contains('" + data[i].Nome + "')").parent().index();
-
-                    if (index == -1) {
-                        $("#table").append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
+                    if (index == -1)
+                    {
+                        table.append('<tr><td><input id="PacienteID" name="PacienteID" type="radio" class="pacienteRadio" value="' + data[i].ID + '"></td><td>' + data[i].Nome + '</td><td><input class="form-control PacienteCpf" data-mask="000.000.000-00" value="' + data[i].CPF + '" disabled /></td></tr>');
                     }
                 }
-
-            } else {
-                $("#table").find("td").parent().remove();
-                $("#SemClienteBusca").show();
+            }
+            else
+            {
+                table.find("td").parent().remove();
+                semClienteBusca.show();
             }
         });
-        
     }
 });
 
 
-var selectedTipoExame = $('#TipoExameID option:selected').val();
-var oldExameValue = '';
+$(document).ready(function () {
 
 
-if (getControllerName() == "Edit") {
+    if (controller == "Edit") {
 
-    $.post(urlAllExamesByTipo, { tipoExameId: selectedTipoExame }, function (data) {
-
-        if (data.length == 0) {
-            
-            $("#ExameID").append("<option value='0'><span class='text-danger'>O exame não é mais referenciado</span></option>");
-            $("#SemExame").slideToggle();            
-            $("#btnNovoExame").slideToggle();
-
-        } else {
-
-            for (let i = 0; i < data.length; i++) {
-
-                if (data[i].TipoExameID == selectedTipoExame) {
-                    $("#ExameID").append(new Option(data[i].Nome, data[i].ID, true));
-                    oldExameValue = data[i].Nome;
-                } else {
-                    $("#ExameID").append(new Option(data[i].Nome, data[i].ID));
-                }
+        $.post(urlAllExamesByTipo, { tipoExameId: tipoExame }, function (data)
+        {
+            if (data.length == 0)
+            {
+                exameEdit.append("<option value='0'><span class='text-danger'>O exame não é mais referenciado</span></option>");
+                semExame.show();
+                btnNovoExame.show();
             }
-        }
-
-        $("#ExamePeloTipo").show();
-    });
-} else {
-    if (selectedTipoExame != '') {
-
-        $.post(urlAllExamesByTipo, { tipoExameId: selectedTipoExame }, function (data) {
-
-            if (data.length == 0) {
-                $("#ExameID option:selected").text("Não possui Exame para esse Tipo");
-                $("#SemExame").slideToggle();
-                $("#btnNovoExame").slideToggle();
-            } else {
-
-                for (let i = 0; i < data.length; i++) {
-
-                    if (data[i].TipoExameID == selectedTipoExame) {
-                        $("#ExameID").append(new Option(data[i].Nome, data[i].ID, true));
-                        oldExameValue = data[i].Nome;
-                    } else {
-                        $("#ExameID").append(new Option(data[i].Nome, data[i].ID));
+            else
+            {
+                for (let i = 0; i < data.length; i++)
+                {
+                    if (data[i].TipoExameID == tipoExame)
+                    {
+                        exameEdit.append(new Option(data[i].Nome, data[i].ID, true));
+                    }
+                    else
+                    {
+                        exameEdit.append(new Option(data[i].Nome, data[i].ID));
                     }
                 }
             }
 
-            $("#ExamePeloTipo").show();
+            examePeloTipo.show();
         });
     }
-}
+    else
+    {        
+        let tipoExameId = tipoExameEdit.val();        
+
+        if (tipoExameId != 0)
+        {
+            $.post(urlAllExamesByTipo, { tipoExameId: tipoExameId }, function (data) {                
+
+                if (data.length == 0)
+                {
+                    exame.text("Não possui Exame para esse Tipo");
+                    semExame.show();
+                    btnNovoExame.show();
+                }
+                else
+                {
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        if (data[i].TipoExameID == tipoExameId)
+                        {
+                            exameEdit.append(new Option(data[i].Nome, data[i].ID, true));
+                        }
+                        else
+                        {
+                            exameEdit.append(new Option(data[i].Nome, data[i].ID));
+                        }
+                    }
+                }
+
+                examePeloTipo.hide();
+            });
+        }
+    }
+});
 
 
-$("#TipoExameID").on('change', function () {        
-
-    exameIDError.hide();
-    $("#SemExame").hide();
-    $("#ExameID option").remove();
+$("#TipoExame").on('change', function ()
+{        
+    exameError.hide();
+    semExame.hide();
+    tipoExameError.hide();
+    //$("#Exame option").remove();
     btnNovoExame.hide();
 
-    var id = this.options[this.selectedIndex].value;    
+    let id = this.options[this.selectedIndex].value;
+    tipoExameEdit.val(id);
 
-    if (id != "") {
-
+    if (id != 0)
+    {        
         $.post(urlAllExamesByTipo, { tipoExameId: id }, function (data) {                        
 
-            if (data.length == 0) {
-                $("#ExameID").append("<option value='0'>Não possui Exame para esse Tipo</option>");
-                exameIDError.text("Selecione um exame.");
+            if (data.length == 0)
+            {
+                exameAppend.append("<option value='0'>Não possui Exame para esse Tipo</option>");
+
+                exameError.text("Selecione um exame.");
+                exameError.show();
+
                 btnNovoExame.show();
-                $("#SemExame").show();
-            } else {
-                $("#ExameID").append(new Option("Selecione um Exame"));
-                for (let i = 0; i < data.length; i++) {
-                    $("#ExameID").append(new Option(data[i].Nome, data[i].ID));
+                semExame.show();
+            }
+            else
+            {             
+                for (let i = 0; i < data.length; i++)
+                {
+                    exameAppend.append(new Option(data[i].Nome, data[i].ID));
                 }
             }
             
-            $("#ExamePeloTipo").show();
-
+            examePeloTipo.show();
         });
-    } else {
-        $("#ExamePeloTipo").hide();
+    }
+    else
+    {
+        examePeloTipo.hide();
     }
 
 });
-
-
-function getControllerName() {
-    let str = window.location.pathname;
-    str = str.split("/");
-
-    return str[2];
-}

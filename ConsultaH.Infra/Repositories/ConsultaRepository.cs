@@ -12,8 +12,8 @@ namespace ConsultaH.Infra.Repositories
             var consultas = Db.Consultas.ToList();
             var exists = false;
 
-            consultas.ForEach(consulta => {
-                
+            foreach(var consulta in consultas){
+
                 var condition = (consulta.Horario.Day == dateTime.Day) &&
                                 (consulta.Horario.Month == dateTime.Month) &&
                                 (consulta.Horario.Year == dateTime.Year) &&
@@ -23,8 +23,9 @@ namespace ConsultaH.Infra.Repositories
                 if (condition)
                 {
                     exists = true;
+                    break;
                 }
-            });
+            }
 
             return exists;
         }

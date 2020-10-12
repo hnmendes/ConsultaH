@@ -2,11 +2,10 @@
 using ConsultaH.Application.Interface;
 using ConsultaH.Domain.Entities;
 using ConsultaH.MVC.ViewModels;
-using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace ConsultaH.MVC.Controllers
@@ -32,7 +31,15 @@ namespace ConsultaH.MVC.Controllers
         // GET: Consultas
         public ActionResult Index()
         {
-            var consultas = _consultaApp.GetAll().ToList();            
+            var consultas = _consultaApp.GetAll().ToList();
+            var created = false;
+
+            if (TempData["Success"] != null)
+            {
+                created = (TempData["Success"] as string) == "true";
+            }
+
+            ViewBag.Created = created;
 
             foreach (var c in consultas)
             {
@@ -73,7 +80,7 @@ namespace ConsultaH.MVC.Controllers
         {
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);
-            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome");
+            ViewBag.TipoExame = new SelectList(tipoExamesViewModel, "ID", "Nome");
 
             return View();
         }
@@ -85,7 +92,7 @@ namespace ConsultaH.MVC.Controllers
         {
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);
-            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome");            
+            ViewBag.TipoExame = new SelectList(tipoExamesViewModel, "ID", "Nome");            
 
             if (consulta.PacienteID == 0)
             {
@@ -96,6 +103,8 @@ namespace ConsultaH.MVC.Controllers
             {
                 var consultaDomain = Mapper.Map<ConsultaViewModel, Consulta>(consulta);
                 _consultaApp.Add(consultaDomain);
+
+                TempData["Success"] = "true";
 
                 return RedirectToAction("Index");
             }
@@ -210,11 +219,11 @@ namespace ConsultaH.MVC.Controllers
         [HttpPost]
         public JsonResult HorarioExists(string date)
         {
-            var dateTime = Convert.ToDateTime(date);            
+            var dateTime = Convert.ToDateTime(date);                        
             
-            var exists = _consultaApp.DateExists(dateTime);
-
-            return Json(exists);
+            var exists = Json(_consultaApp.DateExists(dateTime));           
+            
+            return exists;
         }
     }
 }
