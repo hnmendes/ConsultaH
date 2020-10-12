@@ -218,14 +218,15 @@ buscar.on("keyup", function ()
 
 $(document).ready(function () {
 
+    let tipoExameValue = tipoExameEdit.val();
 
     if (controller == "Edit") {
 
-        $.post(urlAllExamesByTipo, { tipoExameId: tipoExame }, function (data)
+        $.post(urlAllExamesByTipo, { tipoExameId: tipoExameValue }, function (data)
         {
             if (data.length == 0)
             {
-                exameEdit.append("<option value='0'><span class='text-danger'>O exame não é mais referenciado</span></option>");
+                exameAppend.append("<option value='0'><span class='text-danger'>O exame não é mais referenciado</span></option>");
                 semExame.show();
                 btnNovoExame.show();
             }
@@ -233,13 +234,13 @@ $(document).ready(function () {
             {
                 for (let i = 0; i < data.length; i++)
                 {
-                    if (data[i].TipoExameID == tipoExame)
+                    if (data[i].TipoExameID == tipoExameValue)
                     {
-                        exameEdit.append(new Option(data[i].Nome, data[i].ID, true));
+                        exameAppend.append(new Option(data[i].Nome, data[i].ID, true));
                     }
                     else
                     {
-                        exameEdit.append(new Option(data[i].Nome, data[i].ID));
+                        exameAppend.append(new Option(data[i].Nome, data[i].ID));
                     }
                 }
             }
@@ -263,15 +264,17 @@ $(document).ready(function () {
                 }
                 else
                 {
+                    exameAppend.append("<option value='0'>Selecione Um Exame</option>");
+
                     for (let i = 0; i < data.length; i++)
                     {
                         if (data[i].TipoExameID == tipoExameId)
                         {
-                            exameEdit.append(new Option(data[i].Nome, data[i].ID, true));
+                            exameAppend.append(new Option(data[i].Nome, data[i].ID, true));
                         }
                         else
                         {
-                            exameEdit.append(new Option(data[i].Nome, data[i].ID));
+                            exameAppend.append(new Option(data[i].Nome, data[i].ID));
                         }
                     }
                 }
@@ -288,7 +291,7 @@ $("#TipoExame").on('change', function ()
     exameError.hide();
     semExame.hide();
     tipoExameError.hide();
-    //$("#Exame option").remove();
+    $("#Exame option").remove();
     btnNovoExame.hide();
 
     let id = this.options[this.selectedIndex].value;

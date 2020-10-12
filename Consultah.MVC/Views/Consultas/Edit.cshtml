@@ -13,8 +13,10 @@
 
 <div class="form-horizontal">
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })    
-    <input type="hidden" value="@Model.PacienteID" id="PacienteID" />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="hidden" id="PacienteID" name="PacienteID" value="@Model.PacienteID" />
+    <input type="hidden" id="TipoExameID" name="TipoExameID" value="@Model.TipoExameID" />
+    <input type="hidden" id="ExameID" name="ExameID" value="@Model.ExameID" />
 
     <h4><b>Selecione o Paciente para marcar consulta.</b></h4>
     <hr />
@@ -40,7 +42,8 @@
             </tbody>
         </table>
 
-        @Html.ValidationMessageFor(model => model.PacienteID, "", new { @class = "text-danger", @id = "PacienteID-Error" })
+        <div class="form-group text-danger" id="PacienteID-Error" style="display:none;">
+        </div>
 
         <div class="input-group" id="SemClienteBusca" style="display:none;">
             <span class="text-danger">Sua busca não resultou em nenhum paciente com este nome ou CPF, clique no botão abaixo para cadastrá-lo.</span><br />
@@ -57,20 +60,20 @@
         <div class="input-group">
             <p><b>Tipo do Exame</b></p>
             <div>
-                @Html.DropDownList("TipoExameID", null, "Selecionar Tipo de Exame", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoExameID, "", new { @class = "text-danger", @id = "TipoExameID-Error" })
+                @Html.DropDownList("TipoExame", null, "Selecionar Tipo de Exame", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
     </div>
+
+    <div class="form-group text-danger" id="TipoExameID-Error" style="display:none;"></div>
 
     <div id="ExamePeloTipo" style="display:none;">
         <div class="form-group" style="margin-bottom:5px !important;">
             <div class="input-group">
                 <p><b>Exame</b></p>
                 <div>
-                    <select class="form-control" id="ExameID" name="ExameID" style="margin-bottom: 20px;">
-                    </select>                    
-
+                    <select class="form-control" id="Exame" name="Exame" style="margin-bottom: 20px;">                        
+                    </select>
                 </div>
 
             </div>
@@ -79,9 +82,7 @@
 
     </div>
 
-    <div class="form-group" id="ExameId-Error" style="display:none;">        
-        <span class="text-danger"></span>
-    </div>
+    <div class="form-group text-danger" id="ExameID-Error" style="display:none;"></div>
 
     <div class="form-group" id="SemExame" style="display:none;">
         <div>
@@ -89,21 +90,23 @@
             <span class="text-danger">Clique no botão abaixo e cadastre um exame para esse mesmo tipo de exame.</span>
 
         </div>
-    </div>        
-    
+    </div>
+
     <a href="/Exames/Create" class="btn btn-primary form-group" id="btnNovoExame" style="margin-bottom:20px; display:none;">Cadastrar Novo Exame</a>
 
     <div class="form-group">
         <p><b>Horário da Consulta</b></p>
-        <div>            
-            <input type="datetime-local" class="form-control" value="@ViewBag.Horario" name="Horario" id="Horario" min="@ViewBag.HorarioMin"/>
-            @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger", @id = "Horario-error" })
+        <div>
+            <input type="datetime-local" class="form-control" value="@ViewBag.Horario" name="Horario" id="Horario" min="@ViewBag.HorarioMin" />
         </div>
     </div>
 
+    <div class="form-group text-danger" id="Horario-Error" style="display:none;"></div>
+
     <div class="form-group">
         <div>
-            <input type="submit" value="Editar Consulta" class="btn btn-primary" style="margin-top:30px; margin-bottom:30px;" />
+            <input type="button" id="fakeSubmit" value="Marcar Consulta" class="btn btn-primary" />
+            <input type="submit" id="submit" style="display:none;" />
         </div>
     </div>
 </div>

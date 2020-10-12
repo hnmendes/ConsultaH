@@ -126,7 +126,7 @@ namespace ConsultaH.MVC.Controllers
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);                       
             
-            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome", consultaViewModel.TipoExameID);
+            ViewBag.TipoExame = new SelectList(tipoExamesViewModel, "ID", "Nome", consultaViewModel.TipoExameID);
 
             return View(consultaViewModel);
         }
@@ -143,8 +143,7 @@ namespace ConsultaH.MVC.Controllers
             var tipoExamesDomain = _tipoExameApp.GetAll();
             var tipoExamesViewModel = Mapper.Map<IEnumerable<TipoExame>, IEnumerable<TipoExameViewModel>>(tipoExamesDomain);
 
-
-            ViewBag.TipoExameID = new SelectList(tipoExamesViewModel, "ID", "Nome", consultaViewModel.TipoExameID);
+            ViewBag.TipoExame = new SelectList(tipoExamesViewModel, "ID", "Nome", consultaViewModel.TipoExameID);
 
             if(consulta.ExameID == 0)
             {
